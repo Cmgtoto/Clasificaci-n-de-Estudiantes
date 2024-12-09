@@ -111,3 +111,31 @@ print("Classification Report:\n", classification_report(y_test, y_pred))
 ## Resultados Clave
 - El modelo XGBoost mostró un desempeño destacado, alcanzando una precisión del **86%**.
 - El uso de **validación cruzada estratificada** mejoró el equilibrio de clases, especialmente para las categorías con menos datos.
+
+  ## AGRADECIMIENTOS
+  A los Creadores del datset:
+  https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success
+  
+Valentín Realinho Realinho
+
+vrealinho@
+
+Instituto Politécnico de Portalegre
+
+Mónica Vieira Martins Vieira Martins
+
+mvmartins@ipportalegre.pt
+
+Instituto Politécnico de Portalegre
+
+Jorge Machado Machado
+
+jmachado@ipportalegre.pt
+
+Instituto Politécnico de Portalegre
+
+Luis Baptista Bautista
+
+lmtb@ipportalegre.pt
+
+Instituto Politécnico de Portalegre
