@@ -1,4 +1,4 @@
-# Clasificaci-n-de-Estudiantes
+# Clasificación de Estudiantes
  El conjunto de datos incluye información conocida al momento de la inscripción del estudiante (trayectoria académica, demografía y factores socioeconómicos) y el desempeño académico de los estudiantes al fin Los datos se utilizan para construir modelos de clasificación para predecir la deserción y el éxito académico de los estudiantes. 
 # Proyecto de Clasificación de Estudiantes
 
@@ -10,7 +10,6 @@ Este proyecto tiene como objetivo clasificar a los estudiantes en una de tres ca
 
 El análisis se realizó para identificar patrones en los datos y construir modelos de clasificación que permitan predecir la categoría de los estudiantes.
 
----
 
 ## Objetivo
 Desarrollar un modelo de clasificación para predecir el estado final de los estudiantes utilizando información disponible como:
@@ -19,14 +18,13 @@ Desarrollar un modelo de clasificación para predecir el estado final de los est
 - Género
 - Unidades curriculares completadas, entre otros.
 
----
 
 ## Pasos Realizados
 
 1. **Análisis Exploratorio de Datos (EDA):**
    - Se analizaron las distribuciones de las variables categóricas y numéricas.
-   - Se creó una nueva columna `Unidades curriculares totales`, que es la suma de las unidades cursadas en el primer y segundo semestre.
-
+   - Se tradujeron todos los nombres de las columnas al español.
+     
 2. **Preprocesamiento de Datos:**
    - Las variables categóricas (género, estado civil, etc.) fueron codificadas utilizando **LabelEncoder**.
    - Las características numéricas fueron escaladas usando **StandardScaler**.
@@ -38,6 +36,7 @@ Desarrollar un modelo de clasificación para predecir el estado final de los est
      - **Bosques Aleatorios (RandomForest)**
      - **XGBoost**
    - Se realizó una búsqueda de hiperparámetros utilizando **GridSearchCV** para optimizar el modelo XGBoost.
+   - Adicionalmente se aplico Validación cruzada estratificada.
 
 4. **Resultados:**
    - Los mejores hiperparámetros encontrados para XGBoost fueron:
@@ -50,7 +49,7 @@ Desarrollar un modelo de clasificación para predecir el estado final de los est
        'subsample': 1.0
      }
      ```
-   - Precisión final del modelo XGBoost: **76.9%**.
+   - Precisión final del modelo XGBoost: **86%**.
 
 ---
 
@@ -67,25 +66,24 @@ from sklearn.model_selection import train_test_split, GridSearchCV  # División 
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score  # Evaluación
 from imblearn.over_sampling import SMOTE  # Manejo de desbalance de clases
 import xgboost as xgb  # Modelo de clasificación
-```
+from sklearn.model_selection import train_test_split, GridSearchCV  # Para dividir datos y búsqueda de hiperparámetros
+from sklearn.model_selection import StratifiedKFold # Para el uso de la validación cruzada 
 
----
+
 
 ## Uso
 1. **Preprocesamiento de Datos:**
 
 ```python
-# Combinar las unidades curriculares
-df['Unidades curriculares totales'] = df['Unidades curriculares 1er sem (total)'] + df['Unidades curriculares 2do sem (total)']
 
 # Codificación de variables categóricas
 label_encoder = LabelEncoder()
-df['Genero_codificado'] = label_encoder.fit_transform(df['Genero'])
-df['Estado_civil_codificado'] = label_encoder.fit_transform(df['Estado civil'])
+data['Genero_codificado'] = label_encoder.fit_transform(df['Genero'])
+data['Estado_civil_codificado'] = label_encoder.fit_transform(df['Estado civil'])
 
 # División del dataset
-X = df.drop(['Variable_objetivo'], axis=1)  # Sustituir por el nombre de la variable objetivo
-y = df['Variable_objetivo']
+X = data.drop(['Variable_objetivo'], axis=1)  # Sustituir por el nombre de la variable objetivo
+y = data['Variable_objetivo']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 ```
@@ -111,5 +109,5 @@ print("Classification Report:\n", classification_report(y_test, y_pred))
 ---
 
 ## Resultados Clave
-- El modelo XGBoost mostró un desempeño destacado, alcanzando una precisión del **76.9%**.
-- El uso de **SMOTE** mejoró el equilibrio de clases, especialmente para las categorías con menos datos.
+- El modelo XGBoost mostró un desempeño destacado, alcanzando una precisión del **86%**.
+- El uso de **validación cruzada estratificada** mejoró el equilibrio de clases, especialmente para las categorías con menos datos.
